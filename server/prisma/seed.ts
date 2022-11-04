@@ -7,7 +7,7 @@ async function main() {
         data:{
             name:'John Doe',
             email:'john.doe@gmail.com',
-            avatarUrl: 'https://github.com/viniciuslimax10.png'
+            avatarUrl: 'https://github.com/viniciuslimax10.png',
         }
     })
 
