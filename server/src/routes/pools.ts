@@ -78,7 +78,7 @@ export async function poolRoutes(fastify:FastifyInstance){
             })
         }
         if(pool.participants.length >0){
-            return reply.status(400).send({
+            return reply.status(404).send({
                 message: 'Você já está nesse bolão'
             })
         }
@@ -153,6 +153,7 @@ export async function poolRoutes(fastify:FastifyInstance){
         const {id} = getPoolParams.parse(request.params)
 
         const pools = await prisma.pool.findUnique({
+            
             where:{
                id
             },

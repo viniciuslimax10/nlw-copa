@@ -14,8 +14,8 @@ interface UserProps{
 
 export interface AuthContextDataProps{
     user:UserProps;
-    isUserLoading:boolean;
     signIn:()=> Promise<void>;
+    isUserLoading:boolean;
 }
 
 interface AuthProviderProps{
@@ -24,16 +24,18 @@ interface AuthProviderProps{
 
 export const AuthContext = createContext({} as AuthContextDataProps);
 
-export function AuthContextProvider({children}){
+export function AuthContextProvider({children}:AuthProviderProps){
 
-    const [user,setUser] = useState<UserProps>({} as UserProps);
-    const [isUserLoading,setUserLoading] = useState(false);
-
+   
     const [request,response,promptAsync] = Google.useAuthRequest({
-        clientId:'1014717412669-0t7fd2426qp8bgsioj61efce247pmui8.apps.googleusercontent.com',
+        clientId:process.env.CLIENT_ID,
         redirectUri: AuthSession.makeRedirectUri({useProxy: true}),
         scopes: ['profile', 'email']
     });
+
+    const [isUserLoading,setUserLoading] = useState(false);
+    const [user,setUser] = useState<UserProps>({} as UserProps);
+
 
     async function signIn(){
         try{
@@ -49,11 +51,12 @@ export function AuthContextProvider({children}){
 
     async function signInWithGoogle(access_token:string) {
         try{
-            setUserLoading(false);
+            setUserLoading(true);
             const tokenResponse = await api.post('/users',{access_token});
             api.defaults.headers.common['Authorization'] = `Bearer ${tokenResponse.data.token}`;
 
             const userInfoResponse = await api.get('/me');
+
             setUser(userInfoResponse.data.user)
 
         }catch(error){
@@ -75,9 +78,9 @@ export function AuthContextProvider({children}){
 
     return(
         <AuthContext.Provider value={{
+            user,
             signIn,
             isUserLoading,
-            user,
         }}>
             {children}
         </AuthContext.Provider>
