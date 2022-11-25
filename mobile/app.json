@@ -3,7 +3,7 @@
     "name": "nlwcopamobile",
     "slug": "nlwcopamobile",
     "scheme": "nlwcopamobile",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -25,10 +25,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.inteligentec.nlwcopamobile",
+      "version": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8edc27d5-2447-49d9-adc1-c0944ddd9564"
+      }
     }
   }
 }

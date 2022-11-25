@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
 import { authenticate } from "../plugins/authenticate";
+import { gameRoutes } from "./game";
 
 
 export async function guessRoutes(fastify:FastifyInstance){
@@ -10,7 +11,7 @@ export async function guessRoutes(fastify:FastifyInstance){
         return {count}
     });
 
-    fastify.post('/pools/:poolId/games/:gameId/guesses',{
+    fastify.post('/guesses/:poolId/games/:gameId/guesses',{
         onRequest:[authenticate],
     },async (request,reply)=>{
         const createGuessParams = z.object({
@@ -68,7 +69,7 @@ export async function guessRoutes(fastify:FastifyInstance){
             })
         }
 
-        if(game.date < new Date()){
+        if(new Date(game.date).getTime() < new Date().getTime()){
             return reply.status(400).send({
                 message:'Desculpe mas esse jogo já aconteceu',
             })
@@ -86,5 +87,49 @@ export async function guessRoutes(fastify:FastifyInstance){
         return reply.status(201).send()
 
     })
+
+    fastify.get('/guesses/results/:id',async (request)=>{
+        const getPoolParams = z.object({
+            id:z.string(),
+        })
+
+        const {id} = getPoolParams.parse(request.params)
+
+        const guesses = await prisma.guess.findMany({
+            
+           
+            where:{
+               participant:{
+                poolId:id,
+               },      
+            },
+            include:{  
+                game:{
+                    select:{
+                        id:true,
+                        resultFirstTeamPoints:true,
+                        resultSecondTeamPoints:true,
+                        date:true,
+                    },
+                },
+                participant:{
+                    select:{
+                        user:{
+                            select:{
+                                avatarUrl:true,
+                                name:true
+                            }
+                        }
+                    }
+                }
+            },
+            
+            
+           
+           
+        })
+        return {guesses}
+    })
+
 }
 

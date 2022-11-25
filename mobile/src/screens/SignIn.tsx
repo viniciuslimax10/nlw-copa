@@ -25,7 +25,7 @@ export function SignIn(){
           _loading={{_spinner:{color: 'white'}}}
         />
         <Text color="white" textAlign="center" mt={4}>
-          Não utilizamos nenhuma informação além {'\n'} do seu e-mail para a criação de sua conta
+          Não utilizamos nenhuma informação além {'\n'} do seu e-mail, nome e foto de perfil {'\n'} para a criação de sua conta
         </Text>
       </Center>
     )

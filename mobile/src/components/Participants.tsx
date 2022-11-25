@@ -14,12 +14,13 @@ interface Props {
 };
 
 export function Participants({participants, count }: Props) {
+
   return (
     <HStack>
       {
-        participants && participants.map((participant) => (
+        participants && participants.map((participant,index) => (
           <Avatar
-            key={participant.id}
+            key={index}
             source={{ uri: participant.user.avatarUrl}}
             w={8}
             h={8}

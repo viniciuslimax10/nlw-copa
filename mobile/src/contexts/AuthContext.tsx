@@ -31,7 +31,8 @@ export function AuthContextProvider({children}:AuthProviderProps){
         clientId:process.env.CLIENT_ID,
         redirectUri: AuthSession.makeRedirectUri({useProxy: true}),
         scopes: ['profile', 'email']
-    });
+    },{useProxy: true}
+    );
 
     const [isUserLoading,setUserLoading] = useState(false);
     const [user,setUser] = useState<UserProps>({} as UserProps);

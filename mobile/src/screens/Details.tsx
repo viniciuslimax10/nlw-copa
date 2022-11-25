@@ -1,4 +1,4 @@
-import {useToast, VStack, HStack} from "native-base";
+import {useToast, VStack, HStack,Button,Modal,Text} from "native-base";
 import { Header } from "../components/Header";
 import {useRoute} from '@react-navigation/native';
 import { useEffect, useState } from "react";
@@ -10,6 +10,10 @@ import { PoolHeader } from "../components/PoolHeader";
 import {Option} from "../components/Option";
 import {Share} from 'react-native';
 import {Guesses} from "../components/Guesses";
+import {useNavigation} from '@react-navigation/native';
+import { RankCard } from "../components/RankCard";
+import { ModalRegras } from "../components/ModalRegras";
+
 
 
 
@@ -21,10 +25,13 @@ export function Details(){
     const [optionSelected,setOptionSelected] = useState<'guesses' | 'ranking'>('guesses');
     const [isLoading,setIsLoading] = useState(true);
     const [poolDetails,setPoolDetails] = useState<PoolCardProps>({} as PoolCardProps);
+    const [showModal, setShowModal] = useState(false);
 
     const route = useRoute();
     const {id} = route.params as RouteParams;
     const toast = useToast();
+
+    const {navigate} = useNavigation(); 
 
     async function fetchPoolDetails(){
         try {
@@ -47,7 +54,7 @@ export function Details(){
 
     async function handleCodeShare(){
         await Share.share({
-            message:poolDetails.code
+            message:"Acesso o Aplicativo NLW Copa bolões e use o código: "+poolDetails.code
         });
     }
 
@@ -71,6 +78,19 @@ export function Details(){
                     <PoolHeader data ={poolDetails}/>
 
                     <HStack bgColor="gray.800" p={1} rounded="sm" mb={5}>
+                   
+                        <Option 
+                            isSelected={true}
+                            title="Regras do bolão" 
+                            onPress={() => setShowModal(true)}
+                        />
+
+                       <ModalRegras
+                            showModal={showModal}
+                            setShowModal={() => setShowModal(false)}
+                       />
+                    </HStack>
+                    <HStack bgColor="gray.800" p={1} rounded="sm" mb={5}>
                         <Option 
                             title="Seus palpites" 
                             isSelected={optionSelected === 'guesses'}
@@ -82,7 +102,12 @@ export function Details(){
                             onPress={()=> setOptionSelected('ranking')}
                         />
                     </HStack>
-                    <Guesses poolId={poolDetails.id} code={poolDetails.code}/>
+                    {
+                        optionSelected === 'guesses' ?
+                        <Guesses poolId={poolDetails.id} code={poolDetails.code}/>
+                        : <RankCard poolId={poolDetails.id} code={poolDetails.code}/>
+                    }
+                    
                 </VStack>
                 :
                 <EmptyMyPoolList code={poolDetails.code}/>

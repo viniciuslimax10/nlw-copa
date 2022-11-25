@@ -1,8 +1,9 @@
 {
   "name": "server",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
+
   "scripts": {
     "dev": "tsx  watch src/server.ts"
   },
@@ -10,7 +11,8 @@
   "author": "",
   "license": "ISC",
   "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx prisma/realGames.ts"
+    
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^9.1.7",

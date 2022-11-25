@@ -186,5 +186,47 @@ export async function poolRoutes(fastify:FastifyInstance){
         return {pools}
 
     })
+
+    // fastify.get('/pools/results/:id',async (request)=>{
+    //     const getPoolParams = z.object({
+    //         id:z.string(),
+    //     })
+
+    //     const {id} = getPoolParams.parse(request.params)
+
+    //     const pools = await prisma.pool.findMany({
+            
+    //         where:{
+    //            id
+    //         },
+    //         include:{
+    //             _count:{
+    //                 select:{
+    //                     participants:true
+    //                 }
+    //             },
+              
+    //             participants:{
+    //                 select:{
+    //                     userId:true,
+    //                     guesses:true,
+    //                     user:{
+    //                         select:{
+    //                             avatarUrl:true
+    //                         }
+    //                     }
+    //                 },
+    //                 take:4
+    //             },
+    //             owner:{
+    //                 select:{
+    //                     id:true,
+    //                     name:true,
+    //                 }
+    //             }
+    //         }
+    //     })
+    //     return {pools}
+    // })
 }
 

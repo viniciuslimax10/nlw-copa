@@ -23,6 +23,7 @@ interface Props extends TouchableOpacityProps {
 }
 
 export function PoolCard({ data, ...rest }: Props) {
+  // console.log(data);
   return (
     <TouchableOpacity {...rest}>
       <HStack
@@ -43,7 +44,7 @@ export function PoolCard({ data, ...rest }: Props) {
           </Heading>
 
           <Text color="gray.200" fontSize="xs">
-            Criado por {data.owner.name}
+            Criado por {data.owner?.name}
           </Text>
         </VStack>
 
